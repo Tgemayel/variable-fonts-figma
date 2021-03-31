@@ -1,6 +1,6 @@
 # Figma Variable Fonts
 
-"If you can play [DOOM](https://twitter.com/possan/status/1193164022885081089) in Figma, why not use variable fonts?" 
+"If you can play [DOOM](https://twitter.com/possan/status/1193164022885081089) in Figma, why not use variable fonts?" - [Lenny](https://twitter.com/rememberlenny)
 
 A plugin to provide basic variable fonts support through Samsa.js.
 
@@ -12,24 +12,15 @@ This plugin allows you to:
 - Preview, display, and update variable fonts
 - Add and edit text for variable fonts to the Figma canvas
 
-## Todos
+## How to install
 
-- [ ] Preview variable font axes
-- [ ] Control variable font axes using slider
-- [ ] Load variable fonts into plugin modal
-- [ ] Load variable font as SVG in Figma canvas
-- [ ] Upload variable font from file path 
-- [ ] Load variable font as static instance in Figma canvas
-- [ ] View font instances from fvar table as list
-- [ ] Control variable font axes by "locking" axes together
-- [ ] Edit text in Figma canvas that was added using the variable font plugin
+Go to Menu > Plugins > Development > New Plugin...
 
+This will bring up the "Create a plugin" modal to create a sample plugin. Give it a name, then choose the folder you downloaded this plugin to.
 
-# Design
+## Running the plugin
 
-![](https://github.com/rememberlenny/figma-variable-fonts/blob/master/preview.png?raw=true)
-
-- [Link to Figma design](https://www.figma.com/community/file/841567018431192369/Figma-Variable-Font-Plugin-design)
+Create a new design file in the Figma editor. Go to Menu > Plugins > Development > VariableFonts to run your newly created plugin.
 
 ## Development
 
@@ -37,9 +28,9 @@ This plugin allows you to:
 
     Yarn:
     ````
-    yarn 
+    yarn
     ````
-    
+
     npm:
     ````
     npm install
@@ -51,7 +42,7 @@ This plugin allows you to:
     ````
     yarn build:watch
     ````
-    
+
     npm:
     ````
     npm run build:watch
