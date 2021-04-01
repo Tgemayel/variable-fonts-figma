@@ -4,15 +4,23 @@
 
 "If you can play [DOOM](https://twitter.com/possan/status/1193164022885081089) in Figma, why not use variable fonts?" - [Lenny](https://twitter.com/rememberlenny)
 
-A plugin to provide basic variable fonts support through Samsa.js.
+A plugin to provide basic variable fonts support through [samsa.js](https://github.com/Lorp/samsa).
 
-This plugin allows you to:
+This plugin enables you to:
 
-- Render variable fonts in the Figma canvas
-- Create static font instances, using a variable font's variable axes
-- Load the static instances in a variable font's fvar table
-- Preview, display, and update variable fonts
-- Add and edit text for variable fonts to the Figma canvas
+- Render variable fonts **as graphics** on the Figma canvas
+- Preview, create, and edit/update these graphics
+- Choose from all the axes in a variable font
+- Choose from all the variable fonts available from Google Fonts
+
+Near term roadmap features include:
+
+- Choose from all the named instances in a variable font's fvar and STAT table
+
+Longer term aims:
+
+- Create static font instances to download and install, to create 'real' figma Text objects (for now, use [Slice](https://github.com/source-foundry/Slice) instead and do it manually)
+- Support OpenType Shaping for Arabic, Indic, South East Asian fonts ([#7](https://github.com/Tgemayel/variable-fonts-figma/issues/7))
 
 ## Install
 
@@ -20,12 +28,14 @@ This plugin allows you to:
 
 A simple way is to download an release asset zip from this repo's [releases page](https://github.com/Tgemayel/variable-fonts-figma/releases) (`Archive.zip`) and unzip it.
 
+Developers can build their own copy from source, see below.
+
 **2. Install the plugin within Figma's desktop client.**
 
-Go to Menu → Plugins → Development → New Plugin
-
-This will bring up the "Create a plugin" modal dialog.
-In the lower 2nd section to "Link existing plugin", click to choose a manifest.json file, and select the `manifest.json` file in the folder you downloaded this plugin to.
+- Go to Menu → Plugins → Development → New Plugin
+- This will bring up the "Create a plugin" modal dialog
+- In the lower 2nd section to "Link existing plugin", click to choose a manifest.json file
+- Select the `manifest.json` file in the folder you downloaded this plugin to
 
 ## Usage
 
@@ -35,24 +45,25 @@ Go to Menu → Plugins → Development → Variable Fonts
 
 You should see the Variable Fonts palette appear, similar to the screenshot above.
 
-You can select from the dozens of variable fonts in the [Google Fonts](https://fonts.google.com/?vfonly=true).
-A "upload any font" feature is planned soon, but currently the button for it doesn't do anything.
+- Pick one of the dozens of variable fonts available from [Google Fonts](https://fonts.google.com/?vfonly=true).
 
-In the Preview section, enter some custom text.
-Set the color and axes values you want.
-Then click the **Add** button at the top of the Preview section.
+- In the Preview section, enter some custom text.
 
-This will add a Vector graphic object to your Figma file.
+- Set the color and axes values you want.
 
-The plugin remembers which Vector graphic objects it created, and their text remains editable in the plugin panel.
+- Then click the **Add** button at the top of the Preview section.
 
-You can now use the Vector like normal, with all Figma's other tools and plugins for graphics.
+This will add a Vector graphic object to your Figma canvas.
 
-#### Known Issues
+That result is a normal figma Vector object that you can do all the normal things you can typically do with such objects.
 
-There are some issues it is good to be aware of, and which will take some time to address:
+It is **NOT** a Text object!
 
-* [#7](https://github.com/Tgemayel/variable-fonts-figma/issues/7) OpenType Shaping Doesn't Work (Arabic, Indic, South East Asian fonts)
+You can only edit a graphic's text within the plugin window, because the plugin saves some metadata of what the text input was inside that Vector object.
+
+It can only load variable fonts as TTF files from URLs, not fonts you have installed.
+
+An "upload any font" feature is planned soon.
 
 ## Development
 
