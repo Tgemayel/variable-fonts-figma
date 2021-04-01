@@ -48,6 +48,12 @@ The plugin remembers which Vector graphic objects it created, and their text rem
 
 You can now use the Vector like normal, with all Figma's other tools and plugins for graphics.
 
+#### Known Issues
+
+There are some issues it is good to be aware of, and which will take some time to address:
+
+* [#7](https://github.com/Tgemayel/variable-fonts-figma/issues/7) OpenType Shaping Doesn't Work (Arabic, Indic, South East Asian fonts)
+
 ## Development
 
 As of April 2021, this plugin is still in an early phase of development - but it is a "MVP," and basically works.
