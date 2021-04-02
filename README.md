@@ -28,7 +28,7 @@ Longer term aims:
 
 A simple way is to download an release asset zip from this repo's [releases page](https://github.com/Tgemayel/variable-fonts-figma/releases) (`Archive.zip`) and unzip it.
 
-Developers can build their own copy from source, see below.
+(If you download/clone this source code repo (via git), tldr run `yarn`, and see the Development section below for full details!)
 
 **2. Install the plugin within Figma's desktop client.**
 
