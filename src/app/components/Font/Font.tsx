@@ -1,15 +1,16 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Button, Select } from 'react-figma-plugin-ds';
-import Section from '../common/Section';
-import { IFigmaSelectOption } from '../types';
-import { updateActiveFont } from '../store/activeTextSlice';
+import { Select } from 'react-figma-plugin-ds';
+import Section from '../../common/Section';
+import { IFigmaSelectOption } from '../../types';
+import { updateActiveFont } from '../../store/activeTextSlice';
 import { useDispatch, useSelector } from 'react-redux';
-import { useAppState } from '../context/stateContext';
-import { RootState } from '../store/rootReducer';
-import { DEFAULT_COLOR } from '../consts';
+import { useAppState } from '../../context/stateContext';
+import { RootState } from '../../store/rootReducer';
+import { DEFAULT_COLOR } from '../../consts';
+import FontUpload from './FontUpload';
 
-const FontSection = () => {
+const Font = () => {
     const { fonts, setActiveAxes, setActiveColor, setActiveInstance } = useAppState();
     const { fontName } = useSelector((state: RootState) => state.activeText);
     const dispatch = useDispatch();
@@ -25,7 +26,7 @@ const FontSection = () => {
                 });
                 dispatch(
                     updateActiveFont({
-                        fontName: font.names[6],
+                        fontName: font.fontName,
                         axes,
                         color: DEFAULT_COLOR,
                     })
@@ -38,8 +39,6 @@ const FontSection = () => {
         [fonts, fontName]
     );
 
-    const onUpload = React.useCallback(() => {}, []);
-
     const fontList = React.useMemo(
         () =>
             Object.keys(fonts).map((fontName: string) => ({ label: fonts[fontName].fontFamilyName, value: fontName })),
@@ -47,28 +46,26 @@ const FontSection = () => {
     );
 
     return (
-        <Section label="Font">
-            <FontListWrapper>
-                <Select
-                    className="font-select"
-                    onChange={onChange}
-                    options={fontList}
-                    placeholder="Choose a font"
-                    defaultValue={fontName}
-                />
-            </FontListWrapper>
-            <FontUploadBtn>
-                <Button className="font-button" isSecondary onClick={onUpload}>
-                    Upload a variable font here
-                </Button>
-            </FontUploadBtn>
-        </Section>
+        <>
+            <Section label="Font">
+                <FontListWrapper>
+                    <Select
+                        className="font-select"
+                        onChange={onChange}
+                        options={fontList}
+                        placeholder="Choose a font"
+                        defaultValue={fontName}
+                    />
+                </FontListWrapper>
+            </Section>
+            <Section label="Upload">
+                <FontUpload />
+            </Section>
+        </>
     );
 };
 
 const FontListWrapper = styled.div`
-    margin-top: 0.5rem;
-
     .font-select .select-menu__button {
         justify-content: space-between;
         border-color: var(--black1);
@@ -81,13 +78,4 @@ const FontListWrapper = styled.div`
     }
 `;
 
-const FontUploadBtn = styled.div`
-    margin-top: 1rem;
-
-    .font-button {
-        width: 100%;
-        justify-content: center;
-    }
-`;
-
-export default FontSection;
+export default Font;

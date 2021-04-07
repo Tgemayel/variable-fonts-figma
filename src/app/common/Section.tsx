@@ -10,9 +10,11 @@ interface Props {
 const Section = ({ label, children }: Props) => {
     return (
         <SectionWrapper>
-            <Text size="xlarge" weight="bold">
-                {label}
-            </Text>
+            <LabelWrapper>
+                <Text size="xlarge" weight="bold">
+                    {label}
+                </Text>
+            </LabelWrapper>
             {children}
         </SectionWrapper>
     );
@@ -20,7 +22,10 @@ const Section = ({ label, children }: Props) => {
 
 const SectionWrapper = styled.div`
     padding: 0.625rem;
-    border-bottom: 1px solid #e5e5e5;
+`;
+
+const LabelWrapper = styled.div`
+    margin-bottom: 0.5rem;
 `;
 
 export default Section;

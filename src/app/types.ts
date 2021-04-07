@@ -68,3 +68,5 @@ export interface IColor {
 export enum LANGUAGE {
     EN = 'en',
 }
+
+export type OnSelectedFiles = (files?: Array<File>, event?: Event) => void | Promise<void>;

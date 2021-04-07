@@ -17,6 +17,9 @@ export interface StateContextType {
 
     activeInstance: IInstance;
     setActiveInstance(instance: IInstance): void;
+
+    accessToken: string;
+    setAccessToken(token: string): void;
 }
 
 export const StateContext = React.createContext<StateContextType>(null!);
@@ -27,6 +30,7 @@ export default function AppStateProvider(props: React.PropsWithChildren<{}>) {
     const [activeAxes, setActiveAxes] = React.useState<IActiveAxes>({});
     const [activeColor, setActiveColor] = React.useState(DEFAULT_COLOR);
     const [activeInstance, setActiveInstance] = React.useState<IInstance>(null);
+    const [accessToken, setAccessToken] = React.useState('');
     const contextValue = {
         hbInstance,
         setHbInstance,
@@ -38,6 +42,8 @@ export default function AppStateProvider(props: React.PropsWithChildren<{}>) {
         setActiveColor,
         activeInstance,
         setActiveInstance,
+        accessToken,
+        setAccessToken,
     };
     return <StateContext.Provider value={contextValue}>{props.children}</StateContext.Provider>;
 }

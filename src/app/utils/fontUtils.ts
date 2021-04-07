@@ -1,4 +1,4 @@
-export const defineGoogleFontFace = (name, url) => {
+export const defineFontFace = (name, url) => {
     const newStyle = document.createElement('style');
     newStyle.appendChild(
         document.createTextNode(

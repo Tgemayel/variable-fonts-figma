@@ -4,7 +4,7 @@ import Section from '../../common/Section';
 import { RootState } from '../../store/rootReducer';
 import ColorSection from './colorSection';
 
-const StyleSection = () => {
+const Style = () => {
     const fontName = useSelector((state: RootState) => state.activeText.fontName);
 
     if (!fontName) return <></>;
@@ -16,4 +16,4 @@ const StyleSection = () => {
     );
 };
 
-export default StyleSection;
+export default Style;

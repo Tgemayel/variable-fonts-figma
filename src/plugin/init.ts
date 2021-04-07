@@ -1,6 +1,6 @@
 export const figmaInit = () => {
     figma.showUI(__html__, {
-        width: 300,
+        width: 330,
         height: 600,
     });
 };

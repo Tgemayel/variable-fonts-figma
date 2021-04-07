@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Text } from 'react-figma-plugin-ds';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { FIGMA_EVENT_TYPES } from '../../plugin/constants';
-import Section from '../common/Section';
-import { useAppState } from '../context/stateContext';
-import { RootState } from '../store/rootReducer';
-import { convertGlyphToSvg } from '../utils/convertTextToSvg';
+import { FIGMA_EVENT_TYPES } from '../../../plugin/constants';
+import Section from '../../common/Section';
+import { useAppState } from '../../context/stateContext';
+import { RootState } from '../../store/rootReducer';
+import { convertGlyphToSvg } from '../../utils/convertTextToSvg';
 
-const GlyphsSection = () => {
+const Glyphs = () => {
     const fontName = useSelector((state: RootState) => state.activeText.fontName);
     const { hbInstance, fonts, activeAxes, activeColor } = useAppState();
 
@@ -93,4 +93,4 @@ const Glyph = styled.div`
     }
 `;
 
-export default GlyphsSection;
+export default Glyphs;

@@ -6,7 +6,7 @@ import { IGlyphsIndexMap } from '../types.js';
 import { GOOGLE_VARIABLE_FONTS } from '../utils/googleVariableFontList';
 import { getFontFileName } from '../../plugin/utils';
 import { GOOGLE_FONT_PATH } from '../consts';
-import { defineGoogleFontFace } from '../utils/googleFontUtils';
+import { defineFontFace } from '../utils/fontUtils';
 
 const useGetFontList = () => {
     const { setFonts } = useAppState();
@@ -61,7 +61,7 @@ const useGetFontList = () => {
                                     };
                                 });
 
-                                defineGoogleFontFace(fontName, vfFont.url);
+                                defineFontFace(fontName, vfFont.url);
 
                                 resolve({
                                     fontName,
@@ -85,7 +85,7 @@ const useGetFontList = () => {
             Promise.all(promiseList).then((data) => {
                 const fontList = {};
                 data.forEach(({ fontName, ...rest }) => {
-                    fontList[fontName] = rest;
+                    fontList[fontName] = { fontName, ...rest };
                 });
                 setFonts(fontList);
                 setLoading(false);

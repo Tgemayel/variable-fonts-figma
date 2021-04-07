@@ -20,4 +20,9 @@ export default createGlobalStyle`
     button {
         cursor: pointer;
     }
+
+    .disclosure__content {
+        user-select: all;
+        pointer-events: all;
+    }
     `;

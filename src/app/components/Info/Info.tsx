@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Text } from 'react-figma-plugin-ds';
-import Section from '../common/Section';
+import Section from '../../common/Section';
 
-const InfoSection = () => {
+const Info = () => {
     return (
         <Section label="Info">
             <Text size="small" weight="medium">
@@ -12,4 +12,4 @@ const InfoSection = () => {
     );
 };
 
-export default InfoSection;
+export default Info;

@@ -2,15 +2,15 @@ import * as React from 'react';
 import { Button, Text } from 'react-figma-plugin-ds';
 import styled from 'styled-components';
 import ContentEditable from 'react-contenteditable';
-import { FIGMA_EVENT_TYPES } from '../../plugin/constants';
-import { convertTextToSvg } from '../utils/convertTextToSvg';
-import { RootState } from '../store/rootReducer';
+import { FIGMA_EVENT_TYPES } from '../../../plugin/constants';
+import { convertTextToSvg } from '../../utils/convertTextToSvg';
+import { RootState } from '../../store/rootReducer';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateActiveText } from '../store/activeTextSlice';
-import { useAppState } from '../context/stateContext';
-import asyncUpdateFigma from '../utils/updateOnFigma';
+import { updateActiveText } from '../../store/activeTextSlice';
+import { useAppState } from '../../context/stateContext';
+import asyncUpdateFigma from '../../utils/updateOnFigma';
 
-const PreviewSection = () => {
+const Preview = () => {
     const dispatch = useDispatch();
     const ref = React.useRef();
     const { content, fontName, axes, color, selectedStatus } = useSelector((state: RootState) => state.activeText);
@@ -121,4 +121,4 @@ const PreviewLabel = styled.div`
     }
 `;
 
-export default PreviewSection;
+export default Preview;

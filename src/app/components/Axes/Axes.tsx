@@ -5,9 +5,9 @@ import styled from 'styled-components';
 import { useAppState } from '../../context/stateContext';
 import { RootState } from '../../store/rootReducer';
 import { IAxis } from '../../types';
-import Axes from './Axes';
+import Axis from './Axis';
 
-const AxesSection = () => {
+const Axes = () => {
     const { fonts } = useAppState();
     const { fontName, axes } = useSelector((state: RootState) => state.activeText);
 
@@ -22,7 +22,7 @@ const AxesSection = () => {
             const { min, max, tag, name } = axis;
             return (
                 <div key={`${tag}-${index}`}>
-                    <Axes tag={tag} name={name} value={axes[tag]} min={min} max={max} />
+                    <Axis tag={tag} name={name} value={axes[tag]} min={min} max={max} />
                 </div>
             );
         });
@@ -34,7 +34,9 @@ const AxesSection = () => {
                 <Text size="xlarge" weight="bold">
                     Axes
                 </Text>
-                <Button onClick={handleAdd}>Add Instance</Button>
+                <Button isSecondary={true} onClick={handleAdd}>
+                    Add Instance
+                </Button>
             </SectionTitle>
             {displayAxes()}
         </SectionWrapper>
@@ -43,7 +45,6 @@ const AxesSection = () => {
 
 const SectionWrapper = styled.div`
     padding: 0.625rem;
-    border-bottom: 1px solid #e5e5e5;
 `;
 
 const SectionTitle = styled.div`
@@ -53,4 +54,4 @@ const SectionTitle = styled.div`
     margin-bottom: 1rem;
 `;
 
-export default AxesSection;
+export default Axes;

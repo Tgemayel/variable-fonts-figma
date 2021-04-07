@@ -19,7 +19,7 @@ interface Props {
     max: number;
 }
 
-const Axes = ({ tag, name, value, min, max }: Props) => {
+const Axis = ({ tag, name, value, min, max }: Props) => {
     const dispatch = useDispatch();
 
     const { fontName, content } = useSelector((state: RootState) => state.activeText);
@@ -136,4 +136,4 @@ const SliderRow = styled.div`
     }
 `;
 
-export default Axes;
+export default Axis;

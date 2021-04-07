@@ -8,3 +8,7 @@ export const DEFAULT_COLOR = {
 };
 
 export const GOOGLE_FONT_PATH = 'https://cdn.jsdelivr.net/gh/google/fonts@master/ofl';
+
+export const CLIENT_ID = 's1qOlyGx7ygVSo55UEkvLt';
+export const CLIENT_SECRET = 'FsZbhu8gUeKIV5y4gROmel0C6hPxZn';
+export const CALLBACK = 'https://m99ul372hk.execute-api.us-east-1.amazonaws.com/prod/services/callback';

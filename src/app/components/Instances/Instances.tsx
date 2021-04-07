@@ -2,14 +2,14 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { Input, Select, Text } from 'react-figma-plugin-ds';
 import { useDispatch, useSelector } from 'react-redux';
-import Section from '../common/Section';
-import { useAppState } from '../context/stateContext';
-import { RootState } from '../store/rootReducer';
-import { IFigmaSelectOption, IInstance } from '../types';
-import { updateActiveFontAxes } from '../store/activeTextSlice';
-import asyncUpdateFigma from '../utils/updateOnFigma';
+import Section from '../../common/Section';
+import { useAppState } from '../../context/stateContext';
+import { RootState } from '../../store/rootReducer';
+import { IFigmaSelectOption, IInstance } from '../../types';
+import { updateActiveFontAxes } from '../../store/activeTextSlice';
+import asyncUpdateFigma from '../../utils/updateOnFigma';
 
-const InstancesSection = () => {
+const Instances = () => {
     const dispatch = useDispatch();
     const { fontName, content } = useSelector((state: RootState) => state.activeText);
     const { hbInstance, fonts, activeColor, activeInstance, setActiveInstance, setActiveAxes } = useAppState();
@@ -120,9 +120,13 @@ const InstanceAxesWrapper = styled.div`
 const InstanceAxes = styled.div`
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 `;
 
 const InstanceAxis = styled.div`
-    margin-right: 1rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    width: 40px;
 `;
-export default InstancesSection;
+
+export default Instances;
