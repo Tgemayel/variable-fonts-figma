@@ -8,8 +8,9 @@ const About = () => {
         <Section label="About">
             <Content>
                 <Text size="small" weight="medium">
-                    Variable fonts plugin is developed by Toni Gemayel. The variable fonts rendering engine is based on
-                    Samsa.js by Laurence Penney.
+                    Variable Fonts plugin is developed by <a href="https://tonigemayel.com">Toni Gemayel</a>. The
+                    variable fonts rendering engine is based on <a href="https://github.com/Lorp/samsa">samsa.js</a> by{' '}
+                    <a href="https://www.lorp.org">Laurence Penney</a>.
                 </Text>
             </Content>
         </Section>
