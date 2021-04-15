@@ -1,0 +1,5 @@
+ENV: prod
+MESSAGE: 'loko é poko'
+DYNAMO_TABLE_FONTS: ${self:custom.dynamo-fonts} # Reference to Custom Env
+S3_BUCKET: ${self:custom.font-bucket}
+REGION: ${self:custom.region}

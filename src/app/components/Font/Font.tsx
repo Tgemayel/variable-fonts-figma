@@ -41,7 +41,10 @@ const Font = () => {
 
     const fontList = React.useMemo(
         () =>
-            Object.keys(fonts).map((fontName: string) => ({ label: fonts[fontName].fontFamilyName, value: fontName })),
+            Object.keys(fonts).map((fontName: string) => ({
+                label: fonts[fontName].fontFamilyName || fontName,
+                value: fontName,
+            })),
         [fonts]
     );
 

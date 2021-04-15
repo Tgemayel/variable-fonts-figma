@@ -7,12 +7,14 @@ import useFetchFigmaMessages from '../hooks/useFetchFigmaMessages';
 import useGetFontList from '../hooks/useGetFontList';
 import useGetHbInstance from '../hooks/useGetHbInstance';
 import GlobalStyles from '../common/Global.styles';
+import useGetToken from '../hooks/useGetToken';
 
 const App = ({}) => {
-    const { loading } = useGetFontList();
-
+    useGetToken();
     useGetHbInstance();
     useFetchFigmaMessages();
+
+    const { loading } = useGetFontList();
 
     return (
         <>

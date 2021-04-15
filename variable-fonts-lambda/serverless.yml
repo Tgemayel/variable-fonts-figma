@@ -1,0 +1,94 @@
+service: serverless-variable-fonts
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'prod'}
+  region: us-east-1
+  timeout: 10 #Default Lambda timeout 
+  memorySize: 512 #Default Lambda Memory Size
+  versionFunctions: false # No functions versioning 
+  #role: arn:aws:iam::#{AWS::AccountId}:role/existing-role
+  package:
+    excludeDevDependencies: true
+    exclude:
+      - .git/**
+      - .vscode/**
+      - .test/**
+  
+  environment: #Global Environment variables
+      ${file(./configs/${self:provider.stage}.yml)}
+
+  iamRoleStatements: # Permissions for all of your functions can be set here
+
+  - Effect: Allow
+    Action: # Gives permission to DynamoDB tables in a specific region
+      - dynamodb:DescribeTable
+      - dynamodb:Query
+      - dynamodb:Scan
+      - dynamodb:GetItem
+      - dynamodb:PutItem
+      - dynamodb:UpdateItem
+      - dynamodb:DeleteItem
+    Resource: "arn:aws:dynamodb:*:*:*"
+
+  - Effect: Allow
+    Action: # Gives permission to Lambda execution
+      - lambda:InvokeFunction
+      - lambda:InvokeAsync
+    Resource: "*"
+
+custom:
+  region: ${self:provider.region}
+  stage: ${opt:stage, self:provider.stage}
+  prefix: ${self:custom.stage}-${self:service}
+  process: ${self:custom.prefix}-process
+  config: ${self:custom.prefix}-config
+  dynamo-fonts: ${self:custom.prefix}-CustomFonts
+  font-bucket: figma-custom-fonts
+
+  serverless-offline:
+    host: '0.0.0.0'
+
+  splitStacks:
+    perFunction: true
+    perType: true
+
+  dynamodb:
+    stages:
+      - local
+      - test
+      - dev
+
+    start:
+      host: "dynamo"
+      port: 8000
+      inMemory: false
+      migrate: true
+      noStart: true
+
+
+plugins:
+  - serverless-pseudo-parameters
+  - serverless-dynamodb-local
+  - serverless-offline
+
+functions: ${file(serverless-dynamic.js)}
+
+# Infrastrucure - Cloud Formation
+resources:  # CloudFormation template syntax
+
+  Resources:
+    CustomFonts:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.dynamo-fonts}
+        AttributeDefinitions:
+          - AttributeName: hashkey
+            AttributeType: S
+        KeySchema:
+          - AttributeName: hashkey
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 2
+          WriteCapacityUnits: 1

@@ -1,0 +1,67 @@
+  # Fonts API Endpoints
+
+  fonts-token:
+    handler: modules/fonts/endpoints/token.index
+    memorySize: 128
+    timeout: 30
+    events:
+      - http:
+          path: services/token
+          method: get
+          cors: true
+
+  fonts-callback:
+    handler: modules/fonts/endpoints/callback.index
+    memorySize: 128
+    timeout: 30
+    events:
+      - http:
+          path: services/callback
+          method: get
+          cors: true
+
+  fonts-upload:
+    handler: modules/fonts/endpoints/upload.index
+    memorySize: 128
+    timeout: 30
+    events:
+      - http:
+          path: services/fonts/upload
+          method: post
+          cors: true
+
+  fonts-list:
+    handler: modules/fonts/endpoints/read.list
+    timeout: 30
+    events:
+      - http:
+          path: services/fonts
+          method: get
+          cors: true
+
+  fonts-detail:
+    handler: modules/fonts/endpoints/read.detail
+    timeout: 30
+    events:
+      - http:
+          path: services/fonts/{hashkey}
+          method: get
+          cors: true
+
+  fonts-update:
+    handler: modules/fonts/endpoints/update.update
+    timeout: 30
+    events:
+      - http:
+          path: services/fonts/{hashkey}
+          method: put
+          cors: true
+
+  fonts-delete:
+    handler: modules/fonts/endpoints/delete.delete
+    timeout: 30
+    events:
+      - http:
+          path: services/fonts/{hashkey}
+          method: delete
+          cors: true

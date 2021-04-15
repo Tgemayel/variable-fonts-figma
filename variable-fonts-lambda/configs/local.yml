@@ -1,0 +1,4 @@
+ENV: local
+MESSAGE: 'Local'
+DYNAMO_TABLE_FONTS: ${self:custom.dynamo-fonts} # Reference to Custom Env
+REGION: 'localhost'

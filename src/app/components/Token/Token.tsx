@@ -1,18 +1,35 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Button } from 'react-figma-plugin-ds';
+import { Button, Text } from 'react-figma-plugin-ds';
 import { useAppState } from '../../context/stateContext';
+import { API_URL } from '../../consts';
+import { FIGMA_EVENT_TYPES } from '../../../plugin/constants';
 
 const Token = () => {
-    const { accessToken } = useAppState();
+    const { accessToken, setAccessToken } = useAppState();
 
     const onClick = React.useCallback(() => {
-        console.log('request token');
+        fetch(`${API_URL}/token`)
+            .then((res) => res.text())
+            .then((token) => {
+                setAccessToken(token);
+                window.parent.postMessage(
+                    {
+                        pluginMessage: {
+                            type: FIGMA_EVENT_TYPES.SET_TOKEN,
+                            payload: token,
+                        },
+                    },
+                    '*'
+                );
+            });
     }, []);
 
     return (
         <Wrapper>
-            <TokenWrapper>{accessToken}</TokenWrapper>
+            <TokenWrapper>
+                <Text>{accessToken}</Text>
+            </TokenWrapper>
             <Button onClick={onClick} isDisabled={accessToken.length}>
                 Request Token
             </Button>

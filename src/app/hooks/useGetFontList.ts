@@ -5,14 +5,16 @@ import { useAppState } from '../context/stateContext';
 import { IGlyphsIndexMap } from '../types.js';
 import { GOOGLE_VARIABLE_FONTS } from '../utils/googleVariableFontList';
 import { getFontFileName } from '../../plugin/utils';
-import { GOOGLE_FONT_PATH } from '../consts';
+import { API_URL, GOOGLE_FONT_PATH, S3_URL } from '../consts';
 import { defineFontFace } from '../utils/fontUtils';
 
 const useGetFontList = () => {
-    const { setFonts } = useAppState();
+    const { setFonts, accessToken } = useAppState();
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
+        if (!accessToken) return;
+
         const fontLoader = function () {
             const promiseList = Object.keys(GOOGLE_VARIABLE_FONTS).map((font) => {
                 return new Promise((resolve) => {
@@ -35,24 +37,45 @@ const useGetFontList = () => {
             });
         };
 
+        const customFontsLoader = async function () {
+            const res = await fetch(`${API_URL}/fonts`, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            const payload = await res.json();
+            return !payload.message
+                ? payload.map((url) => ({
+                      url: url.startsWith(S3_URL) ? url.split('?')[0] : url,
+                      name: url,
+                  }))
+                : [];
+        };
+
         const loader = async function () {
             const vfFonts = await fontLoader();
-            const promiseList = vfFonts.map((vfFont: { url: string; name: string }) => {
-                return new Promise((resolve) => {
-                    new SamsaFont({
-                        url: vfFont.url,
-                        fontFamily: vfFont.name,
-                        callback: (data: { [key: string]: any }) => {
-                            resolve(data);
-                        },
-                    });
+            const customFonts = await customFontsLoader();
+
+            const promiseList = [...vfFonts, ...customFonts].map((vfFont: { url: string; name: string }) => {
+                return new Promise((resolve, reject) => {
+                    try {
+                        new SamsaFont({
+                            url: vfFont.url,
+                            callback: (data: { [key: string]: any }) => {
+                                resolve(data);
+                            },
+                        });
+                    } catch (error) {
+                        reject();
+                    }
                 }).then((samsaFont: any) => {
                     return new Promise((resolve, reject) => {
                         opentype.load(vfFont.url, (error, opentypeFont) => {
                             if (error) {
                                 reject(error);
                             } else {
-                                const fontName = samsaFont.names[6];
+                                const fontName = samsaFont.names[6] || samsaFont.names[1];
                                 let glyphsIndexMap: IGlyphsIndexMap = {};
                                 samsaFont.glyphs.forEach(({ id }) => {
                                     glyphsIndexMap[id] = {
@@ -92,7 +115,7 @@ const useGetFontList = () => {
             });
         };
         loader();
-    }, []);
+    }, [accessToken]);
 
     return {
         loading,

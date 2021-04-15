@@ -28,7 +28,6 @@ const FileUploadDropzone = ({ acceptedFileTypes, onSelectedFiles, multiple, chil
     const handleChange = React.useCallback(
         function (event: Event): void {
             const files = (event.target as HTMLInputElement).files;
-            console.log(files);
             if (files === null) {
                 return;
             }

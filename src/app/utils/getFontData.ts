@@ -4,13 +4,17 @@ import { defineFontFace } from './fontUtils';
 import { IFont, IGlyphsIndexMap } from '../types';
 
 export const getFontData = (url): Promise<IFont> => {
-    return new Promise((resolve) => {
-        new SamsaFont({
-            url,
-            callback: (data: { [key: string]: any }) => {
-                resolve(data);
-            },
-        });
+    return new Promise((resolve, reject) => {
+        try {
+            new SamsaFont({
+                url,
+                callback: (data: { [key: string]: any }) => {
+                    resolve(data);
+                },
+            });
+        } catch (error) {
+            reject(error);
+        }
     }).then((samsaFont: any) => {
         return new Promise((resolve, reject) => {
             opentype.load(url, (error, opentypeFont) => {

@@ -7,6 +7,8 @@ export const FIGMA_EVENT_TYPES = {
     ON_UI_LOADED: 'on-ui-loaded',
     RENDER_SVG: 'render-svg',
     UPDATE_SELECTED_VARIABLE_SETTINGS: 'update-selected-variable-settings',
+    SET_TOKEN: 'set-token',
+    GET_TOKEN: 'get-token',
 };
 
 export const STATUSES = {

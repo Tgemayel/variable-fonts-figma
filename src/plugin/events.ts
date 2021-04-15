@@ -41,7 +41,6 @@ const onSelectChange = () => {
 
     if (node.type === NODE_TYPES.TEXT) {
         const textNode = node as TextNode;
-        console.log('here we are', textNode);
         return {
             type: FIGMA_EVENT_TYPES.SELECTED_CHANGED,
             status: STATUSES.SUCCESS,
@@ -63,7 +62,7 @@ export const setupFigmaEvents = () => {
         updateUiSelection();
     });
 
-    figma.ui.onmessage = (msg) => {
+    figma.ui.onmessage = async (msg) => {
         if (msg.type === FIGMA_EVENT_TYPES.ON_UI_LOADED) {
             updateUiSelection();
         }
@@ -74,6 +73,20 @@ export const setupFigmaEvents = () => {
 
         if (msg.type === FIGMA_EVENT_TYPES.UPDATE_SELECTED_VARIABLE_SETTINGS) {
             updateVariableFontVector(msg.payload);
+        }
+
+        if (msg.type === FIGMA_EVENT_TYPES.SET_TOKEN) {
+            await figma.clientStorage.setAsync('token', msg.payload);
+        }
+
+        if (msg.type === FIGMA_EVENT_TYPES.GET_TOKEN) {
+            const token = await figma.clientStorage.getAsync('token');
+            await figma.ui.postMessage({
+                payload: {
+                    type: FIGMA_EVENT_TYPES.GET_TOKEN,
+                    token,
+                },
+            });
         }
     };
 };

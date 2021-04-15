@@ -1,0 +1,38 @@
+{
+  "name": "generator-serverless-architecture-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "docker": "docker-compose up --force-recreate",
+    "dev": "npm install; serverless offline start --stage local",
+    "unit-test": "mocha --recursive test/unit/",
+    "integration-test": "mocha --recursive test/integration/"
+  },
+  "keywords": [
+    "yeoman-generator",
+    "api",
+    "serverless",
+    "lambda",
+    "AWS"
+  ],
+  "author": "Matheus Fidelis",
+  "license": "MIT",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "node-fetch": "^2.6.1",
+    "serverless-pseudo-parameters": "^1.6.0",
+    "uuid": "^8.3.2",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "aws-sdk": "^2.780.0",
+    "chai": "^4.2.0",
+    "mocha": "^8.2.0",
+    "serverless-dynamodb-local": "0.2.38",
+    "serverless-offline": "^4.10.6",
+    "serverless-offline-scheduler": "^0.3.8",
+    "serverless-offline-sqs-esmq": "^1.0.1",
+    "serverless-plugin-split-stacks": "^1.9.3"
+  }
+}

@@ -7,6 +7,7 @@ import { getFontData } from '../../utils/getFontData';
 import { useAppState } from '../../context/stateContext';
 import { IFont } from '../../types';
 import FileUploadDropzone from '../../common/FileUploadDropzone';
+import { API_URL } from '../../consts';
 
 const FontUpload = () => {
     const { setFonts, accessToken } = useAppState();
@@ -17,34 +18,82 @@ const FontUpload = () => {
     const [error, setError] = React.useState(false);
 
     const onUpload = React.useCallback(() => {
-        let fontUrl;
         if (uploadFontChoice === 'url') {
-            fontUrl = url;
+            if (!url.toLowerCase().endsWith('.ttf')) {
+                setError(true);
+                return;
+            }
+
+            const body = {
+                type: 'URL',
+                font: url,
+            };
+
+            fetch(`${API_URL}/fonts/upload`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(body),
+            })
+                .then((res) => res.json())
+                .then(() => {
+                    getFontData(url).then((font: IFont) => {
+                        setError(false);
+
+                        setFonts((prev) => {
+                            return {
+                                ...prev,
+                                [font.fontName]: font,
+                            };
+                        });
+                        setUrl('');
+                        setFiles([]);
+                    });
+                });
         } else {
-            console.log(files);
+            const body = {
+                type: 'FILE',
+                font: files[0].name,
+            };
+
+            fetch(`${API_URL}/fonts/upload`, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                body: JSON.stringify(body),
+            })
+                .then((res) => res.json())
+                .then(async (respond) => {
+                    if (respond.url) {
+                        await fetch(respond.url, {
+                            method: 'PUT',
+                            body: files[0],
+                            headers: { 'Content-Type': 'font/ttf' },
+                        });
+
+                        const fontURL = respond.url.split('?')[0];
+
+                        getFontData(fontURL).then((font: IFont) => {
+                            setError(false);
+
+                            setFonts((prev) => {
+                                return {
+                                    ...prev,
+                                    [font.fontName]: font,
+                                };
+                            });
+                            setUrl('');
+                            setFiles([]);
+                        });
+                    }
+                });
         }
-
-        if (!fontUrl.toLowerCase().endsWith('.ttf')) {
-            setError(true);
-            return;
-        }
-
-        setError(false);
-
-        getFontData(fontUrl).then((font: IFont) => {
-            setFonts((prev) => {
-                return {
-                    ...prev,
-                    [font.fontName]: font,
-                };
-            });
-            setUrl('');
-            setFiles([]);
-        });
     }, [url, files, uploadFontChoice, setError, setUrl, setFiles, setFonts]);
 
     const onSelectedFiles = React.useCallback((data) => {
-        console.log(data);
+        setFiles(data);
     }, []);
 
     return (
@@ -71,12 +120,19 @@ const FontUpload = () => {
             ) : (
                 <DropzoneWrapper>
                     <FileUploadDropzone acceptedFileTypes={['ttf']} onSelectedFiles={onSelectedFiles}>
-                        <Text size="medium" weight="bold">
-                            Drop a variable font here <br></br>or click to select a variable font from your computer
-                        </Text>
-                        <Text size="xsmall" weight="medium">
-                            Supported formats: TTF
-                        </Text>
+                        {files.length ? (
+                            files.map((file) => <Text key={file.name}>{file.name}</Text>)
+                        ) : (
+                            <>
+                                <Text size="medium" weight="bold">
+                                    Drop a variable font here <br></br>or click to select a variable font from your
+                                    computer
+                                </Text>
+                                <Text size="xsmall" weight="medium">
+                                    Supported formats: TTF
+                                </Text>
+                            </>
+                        )}
                     </FileUploadDropzone>
                 </DropzoneWrapper>
             )}

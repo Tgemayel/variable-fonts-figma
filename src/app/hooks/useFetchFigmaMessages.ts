@@ -7,29 +7,39 @@ import { updateActiveFont, updateActiveText, updateSelectionStatus } from '../st
 
 const useFetchFigmaMessages = () => {
     const dispatch = useDispatch();
-    const { setActiveAxes, setActiveColor } = useAppState();
+    const { setActiveAxes, setActiveColor, setAccessToken } = useAppState();
 
     React.useEffect(() => {
         // This is how we read messages sent from the plugin controller
         window.onmessage = (event) => {
             const { payload } = event.data.pluginMessage;
 
-            if (payload.status === STATUSES.SUCCESS && payload.type === FIGMA_EVENT_TYPES.SELECTED_CHANGED) {
-                const { fontName, content, axes, color } = payload;
-                dispatch(
-                    updateActiveFont({
-                        fontName,
-                        axes,
-                        color,
-                    })
-                );
-                dispatch(updateActiveText(content));
-                dispatch(updateSelectionStatus(true));
-                setActiveAxes(axes);
-                setActiveColor(color);
-            } else {
-                dispatch(updateActiveText(DEFAULT_CONTENT));
-                dispatch(updateSelectionStatus(false));
+            switch (payload.type) {
+                case FIGMA_EVENT_TYPES.SELECTED_CHANGED:
+                    if (payload.status === STATUSES.SUCCESS) {
+                        const { fontName, content, axes, color } = payload;
+                        dispatch(
+                            updateActiveFont({
+                                fontName,
+                                axes,
+                                color,
+                            })
+                        );
+                        dispatch(updateActiveText(content));
+                        dispatch(updateSelectionStatus(true));
+                        setActiveAxes(axes);
+                        setActiveColor(color);
+                    } else {
+                        dispatch(updateActiveText(DEFAULT_CONTENT));
+                        dispatch(updateSelectionStatus(false));
+                    }
+                    break;
+                case FIGMA_EVENT_TYPES.GET_TOKEN:
+                    const { token } = payload;
+                    setAccessToken(token || '');
+                    break;
+                default:
+                    break;
             }
         };
     }, []);
