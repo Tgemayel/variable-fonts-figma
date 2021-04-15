@@ -26,7 +26,7 @@ Longer term aims:
 
 **1. Obtain a built copy of the plugin.**
 
-A simple way is to download an release asset zip from this repo's [releases page](https://github.com/Tgemayel/variable-fonts-figma/releases) (`Archive.zip`) and unzip it.
+A simple way is to download an release asset zip from this repo's [releases page](https://github.com/Tgemayel/variable-fonts-figma/releases) (`variable-font-plugin-public.zip`) and unzip it.
 
 (If you download/clone this source code repo (via git), tldr run `yarn`, and see the Development section below for full details!)
 
