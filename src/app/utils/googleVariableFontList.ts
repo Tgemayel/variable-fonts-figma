@@ -83,3 +83,10 @@ export const GOOGLE_VARIABLE_FONTS = {
     worksans: 'google',
     yanonekaffeesatz: 'google',
 };
+
+export const EXTERNAL_FONTS = [
+    {
+        url: `https://cdn.jsdelivr.net/gh/TypeNetwork/Roboto-Flex@master/fonts/RobotoFlex%5Bslnt%2Cwdth%2Cwght%2Copsz%5D.ttf`,
+        name: 'Roboto Flex',
+    },
+];
