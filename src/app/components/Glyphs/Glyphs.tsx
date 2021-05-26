@@ -63,7 +63,7 @@ const Glyphs = () => {
                         else iglyph = glyph.instantiate(null, font.instances[0]);
 
                         return (
-                            <Glyph key={`${glyphName}-${glyph.id}`} onClick={() => onClick(glyph)}>
+                            <Glyph key={`${glyphName}-${glyph.id}`} onDoubleClick={() => onClick(glyph)}>
                                 <Text weight="medium" size="small">
                                     {glyphName}
                                 </Text>

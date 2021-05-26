@@ -13,11 +13,6 @@ const useGetFontList = () => {
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
-        if (!accessToken) {
-            setLoading(false);
-            return;
-        }
-
         const fontLoader = function () {
             const promiseList = Object.keys(GOOGLE_VARIABLE_FONTS).map((font) => {
                 return new Promise((resolve) => {
