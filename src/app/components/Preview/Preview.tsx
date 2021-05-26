@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { updateActiveText } from '../../store/activeTextSlice';
 import { useAppState } from '../../context/stateContext';
 import asyncUpdateFigma from '../../utils/updateOnFigma';
+import convertHtmlToText from '../../utils/convertHtmlToText';
 
 const Preview = () => {
     const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Preview = () => {
 
     const handleChange = React.useCallback(
         (event) => {
-            const text = event.target.value;
+            const text = convertHtmlToText(event.target.value);
             dispatch(updateActiveText(text));
             asyncUpdateFigma(hbInstance, fonts[fontName].fontUrl, fontName, text, axes, activeColor);
         },
@@ -82,6 +83,9 @@ const Preview = () => {
                             color: `rgba(${color.r},${color.g},${color.b},${color.a})`,
                             fontFamily: fontName,
                             fontVariationSettings,
+                        }}
+                        onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
+                            event.keyCode === 13 && event.preventDefault();
                         }}
                     />
                 </PreviewLabel>
