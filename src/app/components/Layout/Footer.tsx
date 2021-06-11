@@ -6,7 +6,7 @@ const Footer = () => {
     return (
         <Wrapper>
             <Text size="xsmall" weight="medium">
-                @ 2021 Variable Fonts
+                @ 2021 Variable Fonts {process.env.REACT_APP_VERSION}
             </Text>
         </Wrapper>
     );

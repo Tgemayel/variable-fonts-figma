@@ -23,15 +23,22 @@ const useGetFontList = () => {
                         })
                         .then((arrayBuffer) => {
                             const metaData = String.fromCharCode.apply(null, new Uint8Array(arrayBuffer));
-                            resolve({
-                                name: font,
-                                url: `${GOOGLE_FONT_PATH}/${font}/${getFontFileName(metaData)}`,
-                            });
+                            const fileNames = getFontFileName(metaData) || [];
+                            resolve(
+                                fileNames.map((fileName, index) => ({
+                                    name: `${font}${index === 1 ? '-Italic' : ''}`,
+                                    url: `${GOOGLE_FONT_PATH}/${font}/${fileName}`,
+                                }))
+                            );
                         });
                 });
             });
-            return Promise.all(promiseList).then((fontList) => {
-                return fontList;
+            return Promise.all(promiseList).then((fontList: []) => {
+                let result = [];
+                fontList.forEach((item) => {
+                    result = [...result, ...item];
+                });
+                return result;
             });
         };
 

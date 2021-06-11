@@ -27,8 +27,5 @@ export const isJsonString = (str: string) => {
 };
 
 export const getFontFileName = (metadata: string) => {
-    return metadata
-        .replace(/\n/g, ' ')
-        .match(/fonts \{[^{}]*style: "normal"[^{}]*(\"[^"]*\.ttf\")[^{}]*\}/)[1]
-        .replace(/"/g, '');
+    return metadata.match(/[a-zA-Z0-9\[\]\-\,]*\.ttf/g);
 };

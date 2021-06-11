@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Button, Input, Text } from 'react-figma-plugin-ds';
+import { Button, Checkbox, Input, Text } from 'react-figma-plugin-ds';
 import { Link } from 'react-router-dom';
 import RadioButtons from '../../common/RadioButtons';
 import { getFontData } from '../../utils/getFontData';
@@ -16,6 +16,8 @@ const FontUpload = () => {
     const [url, setUrl] = React.useState('');
     const [files, setFiles] = React.useState([]);
     const [error, setError] = React.useState(false);
+    const [ownership, setOwnership] = React.useState(false);
+    const [uploading, setUploading] = React.useState(false);
 
     const onUpload = React.useCallback(() => {
         if (uploadFontChoice === 'url') {
@@ -23,6 +25,8 @@ const FontUpload = () => {
                 setError(true);
                 return;
             }
+
+            setUploading(true);
 
             const body = {
                 type: 'URL',
@@ -49,9 +53,13 @@ const FontUpload = () => {
                         });
                         setUrl('');
                         setFiles([]);
+                        setOwnership(false);
+                        setUploading(false);
                     });
                 });
         } else {
+            setUploading(true);
+
             const body = {
                 type: 'FILE',
                 font: files[0].name,
@@ -86,6 +94,8 @@ const FontUpload = () => {
                             });
                             setUrl('');
                             setFiles([]);
+                            setOwnership(false);
+                            setUploading(false);
                         });
                     }
                 });
@@ -114,11 +124,11 @@ const FontUpload = () => {
                 value={uploadFontChoice}
             />
             {uploadFontChoice === 'url' ? (
-                <UrlWrapper>
+                <Wrapper>
                     <Input defaultValue={url} placeholder="Enter a valid Variable Font URL" onChange={setUrl} />
-                </UrlWrapper>
+                </Wrapper>
             ) : (
-                <DropzoneWrapper>
+                <Wrapper>
                     <FileUploadDropzone acceptedFileTypes={['ttf']} onSelectedFiles={onSelectedFiles}>
                         {files.length ? (
                             files.map((file) => <Text key={file.name}>{file.name}</Text>)
@@ -134,7 +144,7 @@ const FontUpload = () => {
                             </>
                         )}
                     </FileUploadDropzone>
-                </DropzoneWrapper>
+                </Wrapper>
             )}
 
             {error && (
@@ -145,9 +155,17 @@ const FontUpload = () => {
                 </ErrorWrapper>
             )}
 
+            <Wrapper>
+                <Checkbox
+                    label="I acknowledge that I have complete ownership of the font"
+                    onChange={() => setOwnership(!ownership)}
+                    type="checkbox"
+                />
+            </Wrapper>
+
             <ButtonWrapper>
-                <Button isDisabled={(!url && !files.length) || !accessToken.length} onClick={onUpload}>
-                    Upload
+                <Button isDisabled={(!url && !files.length) || !ownership || !accessToken.length} onClick={onUpload}>
+                    {uploading ? 'Uploading now ...' : 'Upload'}
                 </Button>
             </ButtonWrapper>
 
@@ -162,11 +180,7 @@ const FontUpload = () => {
     );
 };
 
-const UrlWrapper = styled.div`
-    margin-top: 1rem;
-`;
-
-const DropzoneWrapper = styled.div`
+const Wrapper = styled.div`
     margin-top: 1rem;
 `;
 
